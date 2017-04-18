@@ -1,0 +1,285 @@
+{% extends "base.html" %}
+{% load i18n mezzanine_tags blog_tags keyword_tags disqus_tags staticfiles custom_tags %}
+
+{% block meta_title %}{% if page %}{{ page.meta_title }}{% else %}{% trans "Blog" %}{% endif %}{% endblock %}
+
+{% block meta_keywords %}{% metablock %}
+{% keywords_for page as keywords %}
+{% for keyword in keywords %}
+	{% if not forloop.first %}, {% endif %}
+	{{ keyword }}
+{% endfor %}
+{% endmetablock %}{% endblock %}
+
+{% block meta_description %}{% metablock %}
+{{ page.description }}
+{% endmetablock %}{% endblock %}
+
+{% block title %}
+{% if page %}
+{% editable page.title %}{{ page.title }}{% endeditable %}
+{% else %}
+{% trans "Blog" %}
+{% endif %}
+{% endblock %}
+
+{% block breadcrumb_menu %}
+{{ block.super }}
+{% if tag or category or year or month or author %}
+<li>{% spaceless %}
+{% if tag %}
+	{% trans "Tag:" %} {{ tag }}
+{% else %}{% if category %}
+	{% trans "Category:" %} {{ category }}
+{% else %}{% if year or month %}
+	{% if month %}{{ month }}, {% endif %}{{ year }}
+{% else %}{% if author %}
+	{% trans "Author:" %} {{ author.get_full_name|default:author.username }}
+{% endif %}{% endif %}{% endif %}{% endif %}
+{% endspaceless %}
+</li>
+{% endif %}
+{% endblock %}
+
+{% block featured %}
+<!-- Featured Posts Slider -->
+{% get_featured "featured1" as featured1 %}
+{% get_featured "featured2" as featured2 %}
+{% get_featured "featured3" as featured3 %}
+{% get_featured "featured4" as featured4 %}
+<div class="owl-carousel">
+	<div class="item">
+		<!--<img src="{{ featured_post1.featured_image }}">-->
+		<img class="slide-img" src="{{ featured1.featured_image.url }}">
+		<figcaption class="slide__caption" style="visibility: hidden;">
+			<!--<p>Category</p>-->
+			<p>{{ featured1.categories.all|first }}</p>
+			<a href="{{ featured1.get_absolute_url }}" class="">
+				<h2>{{ featured1.title }}</h2>
+			</a>
+			<a class="slider__button" href="{{ featured1.get_absolute_url }}">read</a>
+		</figcaption>
+	</div>
+	<div class="item">
+		<img class="slide-img" src="{{ featured2.featured_image.url }}">
+		<figcaption class="slide__caption" style="visibility: hidden;">
+			<!--<p>Category</p>-->
+			<p>{{ featured2.categories.all|first }}</p>
+			<a href="{{ featured2.get_absolute_url }}" class="">
+				<h2>{{ featured2.title }}</h2>
+			</a>
+			<a class="slider__button" href="{{ featured2.get_absolute_url }}">read</a>
+		</figcaption>
+	</div>
+	<div class="item">
+		<img class="slide-img" src="{{ featured3.featured_image.url }}">
+		<figcaption class="slide__caption" style="visibility: hidden;">
+			<!--<p>Category</p>-->
+			<p>{{ featured3.categories.all|first }}</p>
+			<a href="{{ featured3.get_absolute_url }}" class="">
+				<h2>{{ featured3.title }}</h2>
+			</a>
+			<a class="slider__button" href="{{ featured3.get_absolute_url }}">read</a>
+		</figcaption>
+	</div>
+	<div class="item">
+		<img class="slide-img" src="{{ featured4.featured_image.url }}">
+		<figcaption class="slide__caption" style="visibility: hidden;">
+			<!--<p>Category</p>-->
+			<p>{{ featured4.categories.all|first }}</p>
+			<a href="{{ featured4.get_absolute_url }}" class="">
+				<h2>{{ featured4.title }}</h2>
+			</a>
+			<a class="slider__button" href="{{ featured4.get_absolute_url }}">read</a>
+		</figcaption>
+	</div>
+</div>
+{% endblock %}
+
+{% block sidebar %}
+<aside class="sidebar big-sidebar right-sidebar">
+	<div class="sidebar-widget1 sidebar-box">
+		<h2 class="sidebar-title">Welcome</h2>
+		<p class="sidebar-text">here is some text</p>
+	</div>
+	<div class="sidebar-widget1 sidebar-box">
+		<h2 class="sidebar-title">Subscribe to our newsletter!</h2>
+		<div class="email-input-form form-group" style="width: 90%; margin: auto;">
+			<input id="email-input" class="flex-container flex-start form-control" type="search" name="q" value="" style="color: #EEE; text-align: center;">
+		</div>
+		<p class="sidebar-text">Submit</p>
+	</div>
+	<div class="sidebar-widget1 sidebar-box">
+		<h2 class="sidebar-title">Affiliate!</h2>
+		<p class="sidebar-text">here is some text</p>
+	</div>
+	<div class="sidebar-widget1 sidebar-box">
+		<h2 class="sidebar-title">Contact us via</h2>
+		<p class="sidebar-text">here is some text</p>
+	</div>
+	<div class="sidebar-widget1 sidebar-box">
+		<h2 class="sidebar-title">Insta!</h2>
+		<img style="height: 260px; object-fit: cover;" class="center-block" src="/static/images/Headerfinal.jpg"/>
+	</div>
+	<div class="sidebar-widget1 sidebar-box">
+		<h2 class="sidebar-title">Affiliate</h2>
+		<p class="sidebar-text">here is some text</p>
+	</div>
+	<div class="sidebar-widget1 sidebar-box">
+		<h2 class="sidebar-title">Social media!</h2>
+		<p class="sidebar-text" >some text</p>
+	</div>
+</aside>
+{% endblock %}
+
+{% block main %}
+
+{% if tag or category or year or month or author %}
+	{% block blog_post_list_filterinfo %}
+	<p>
+	{% if tag %}
+		{% trans "Viewing posts tagged" %} {{ tag }}
+	{% else %}{% if category %}
+		{% trans "Viewing posts for the category" %} {{ category }}
+	{% else %}{% if year or month %}
+		{% trans "Viewing posts from" %} {% if month %}{{ month }}, {% endif %}
+		{{ year }}
+	{% else %}{% if author %}
+		{% trans "Viewing posts by" %}
+		{{ author.get_full_name|default:author.username }}
+	{% endif %}{% endif %}{% endif %}{% endif %}
+	{% endblock %}
+	</p>
+{% else %}
+	{% if page %}
+	{% block blog_post_list_pagecontent %}
+	{% if page.get_content_model.content %}
+		{% editable page.get_content_model.content %}
+		{{ page.get_content_model.content|richtext_filters|safe }}
+		{% endeditable %}
+	{% endif %}
+	{% endblock %}
+	{% endif %}
+{% endif %}
+
+{% for blog_post in blog_posts.object_list %}
+	<a href="{{ blog_post.get_absolute_url }}" class="preview-link">
+		<article class="main-content__post scrollme">
+
+			<!-- Post image -->
+			{% if settings.BLOG_USE_FEATURED_IMAGE and blog_post.featured_image %}
+					<img class="center-block" src="{{ blog_post.featured_image.url }}"/>
+			{% endif %}
+
+			{% block blog_post_list_post_title %}
+				{% editable blog_post.title %}
+					{#<h1>{{blog_post.draft}}</h1>#}
+					<h2 class="post__title">
+					{{ blog_post.title }}
+					</h2>
+					<time class="post__time" datetime="blog_post.publish_date">
+						{% with blog_post.publish_date.day as date_day %}
+						{% with date_day|stringformat:"i" as string_day %}
+						{% with string_day|slice:"-1:" as last %}
+						{% if string_day == '10' or string_day == '11' or string_day == '12' or string_day == '13' %}
+							<span class="time_large">{{blog_post.publish_date.day}}<sup>th</sup>
+						{% elif last == '1' %}
+							<span class="time_large">{{blog_post.publish_date.day}}<sup>st</sup>
+						{% elif last == '2' %}
+							<span class="time_large">{{blog_post.publish_date.day}}<sup>nd</sup>
+						{% elif last == '3' %}
+							<span class="time_large">{{blog_post.publish_date.day}}<sup>rd</sup>
+						{% else %}
+							<span class="time_large">{{blog_post.publish_date.day}}<sup>th</sup>
+						{% endif %}
+							</span> {{ blog_post.publish_date|date:"F" }}
+							<span>{{ blog_post.publish_date.year }}</span>
+						{% endwith %}
+						{% endwith %}
+						{% endwith %}
+					</time>
+				{% endeditable %}
+			{% endblock %}
+
+			{% block blog_post_list_post_content %}
+				<div class="post__content">
+					<p class="post_preview">
+						{{ blog_post.description|safe }}
+					</p>
+					<p class="post__meta">
+						{% with blog_post.categories.all as categories %}
+							{% if categories %}
+								{% for category in categories %}
+								{% endfor %}
+							{% endif %}
+						{% endwith %}
+					</p>
+				</div>
+			{% endblock %}
+
+			<div class="post__button">
+					<p>read entire story</p>
+					<img class="arrow1" src="{% static "images/arrow1.png" %}" />
+			</div>
+		</article>
+	</a>
+{% endfor %}
+
+{% pagination_for blog_posts %}
+
+{% if settings.COMMENTS_DISQUS_SHORTNAME %}
+{% include "generic/includes/disqus_counts.html" %}
+{% endif %}
+
+{% endblock %}
+
+{% block right_panel %}
+{% include "blog/includes/filter_panel.html" %}
+{% endblock %}
+
+
+{% block about_section %}
+<section id="bottom-content">
+	<div class="container">
+		
+		<div class="sixteen columns" id="happinesswhenshared">
+			<article class="tweet">
+					<div>
+						<!-- head of tweet -->
+						<header class="tweet__header">
+							<!-- Tweet author photo -->
+							<div class="tweet__avatar">
+								<a href="/about">
+									<img src="{% static "images/AboutPic2.png" %}" alt="" />
+								</a>
+							</div>
+
+							<!-- Tweet author name and nickname -->
+							<a href="/about">
+								<img class="likeariot" src="{% static "images/likeariot.jpg" %}">
+								<!--<p class="tweet__author">Like a Riot</p>-->
+								<p class="tweet__nick">Happiness only real when shared</p>
+							</a>
+
+							<div class="tweet__separator">
+								<img src="{% static "images/vintagecamera.png" %}" alt="picture not found" />
+							</div>
+
+						</header>
+
+						<blockquote class="tweet__content">
+							<a href="/about" style="color: rgb(89, 89, 89)">
+								<p>
+									Into the Wild. Ausgezogen, die Welt zu erobern, ein Leben zu führen, irgendwo zwischen Outdoor Abenteuer und Heimatliebe. Beste Freundinnen seit 20 Jahren, sind wir 2015 gemeinsam nach Island gezogen, pendeln nun zwischen den wilden Weiten des hohen Nordens und Deutschland. Wir leben hier draussen unseren kühnsten Traum und teilen alle Aspekte unseres eher ungewöhnlichen Alltags mit euch. Persönlich, euphorisch, authentisch und mit einer großen Portion Wagemut nehmen wir euch mit auf unsere Reise.
+									<p>GO DO!</p>
+								</p>
+							</a>
+						</blockquote>
+
+					</div>
+
+			</article><!-- // Tweet -->
+		</div>
+	</div>
+</section>
+{% endblock %}

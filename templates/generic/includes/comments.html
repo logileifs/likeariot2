@@ -1,0 +1,60 @@
+{% load i18n mezzanine_tags comment_tags %}
+
+<h2 class="leave_comment">Leave a comment</h2>
+<form class="comment-form" method="post" id="comment" action="{{ comment_url }}#comment" style="width: 100%">
+{% nevercache %}
+<input type="hidden" name="referrer" value="{{ request.META.HTTP_REFERER }}">
+{% csrf_token %}
+{% endnevercache %}
+
+{% for field in posted_comment_form %}
+	{% if field.is_hidden %}
+		{{ field }}
+	{% else %}
+		<div class="form-group input_{{ field.id_for_label }} {{ field.field.type }}
+			{% if field.errors %} has-error{% endif %}">
+			{% if field.label %}
+				<label class="control-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+			{% endif %}
+			{{ field }}
+			<!--{% if field.errors %}
+			<p class="help-block">
+				{% for e in field.errors %}
+				{% if not forloop.first %} / {% endif %}{{ e }}
+				{% endfor %}
+			</p>
+			{% elif field.help_text %}
+			<p class="help-block">{{ field.help_text }}</p>
+			{% endif %}-->
+		</div>
+	{% endif %}
+{% endfor %}
+<!--<div class="form-actions">
+	<input type="submit" value="{% trans "Comment" %}" name="subscribe"  class="button">
+</div>-->
+<div class="form-actions">
+	<input class="btn btn-primary btn-lg" type="submit" value="{% trans "Comment" %}">
+</div>
+</form>
+
+<h2 class="leave_comment" style="margin-bottom: 0px;">
+	{% blocktrans count comments_count=blog_post.comments_count %}{{ comments_count }} comment{% plural %}{{ comments_count }} Comments{% endblocktrans %}
+</h2>
+<!--<h3 style="">{% trans "People said HI!" %}</h3>-->
+
+{% if settings.COMMENTS_DISQUS_SHORTNAME %}
+{% include "generic/includes/disqus_comments.html" %}
+{% else %}
+<script>
+$(function() {
+	$('.reply').click(function() {
+		$('.comment-reply-form').hide();
+		$(this).siblings('.comment-reply-form').toggle();
+	});
+});
+</script>
+<style>.input_id_honeypot {display:none !important;}</style>
+{% comment_thread object_for_comments %}
+
+{% endif %}
+</div>

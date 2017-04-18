@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html lang="{{ LANGUAGE_CODE }}"{% if LANGUAGE_BIDI %} dir="rtl"{% endif %}>
+<!--<![endif]-->
+{% load pages_tags mezzanine_tags i18n staticfiles %}
+
+<head>
+
+	<!-- Basic Page Needs
+  ================================================== -->
+	<meta charset="utf-8">
+	<title>Your Page Title Here :)</title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<!-- Mobile Specific Metas
+  ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<!-- CSS
+  ================================================== -->
+	<link rel="stylesheet" type='text/css' href="static/css/reset.css">
+	<link rel="stylesheet" type='text/css' href="static/css/grid.css">
+	<link rel="stylesheet" type='text/css' href="static/css/layout.css">
+	<link rel="stylesheet" type='text/css' href="static/css/owl.carousel.css">
+	<link rel="stylesheet" type='text/css' href="static/css/font-awesome.min.css">
+	<link rel="stylesheet" type='text/css' href="static/css/swipebox.css">
+
+	<link href='http://fonts.googleapis.com/css?family=Merriweather:400,700italic,400italic,300,900,900italic,700,300italic' rel='stylesheet' type='text/css'>
+
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Favicons
+	================================================== -->
+	<link rel="shortcut icon" href="static/images/favicon.ico">
+
+</head>
+<body>
+
+	<!-- Main Container -->
+	<div class="main__container">
+
+		<!-- Mobile Menu-->
+		<div class="mobile-menu__wrap">
+			<nav class="mobile-menu__nav">
+				<div class="icon-list">
+					<div class="mobile-menu__search">
+						<input id="mobile-search" type="search" placeholder="Search...">
+					</div>
+					<ul class="mobile-menu__list">
+						<li class="submenu-link"><a class="arrow" href="index.html">Home</a>
+							<!-- Submenu-->
+							<ul>
+								<li><a href="index.html">Carousel</a></li>
+								<li><a href="index-slider.html">Slider</a></li>
+								<li><a href="index-animations.html">Scroll Animations</a></li>
+								<li><a href="index-sidebar.html">Sidebar</a></li>
+							</ul>
+						</li>
+						<li class="submenu-link"><a class="arrow" href="#">Post Types</a>
+							<!-- Submenu-->
+							<ul>
+								<li><a href="single.html">Default</a></li>
+								<li><a href="single-sidebar.html">Sidebar</a></li>
+								<li><a href="single-fullscreen.html">Fullscreen Parallax</a></li>
+								<li><a href="single-video.html">Video Post</a></li>
+								<li><a href="single-gallery.html">Gallery Post</a></li>
+								<li><a href="single-audio.html">Audio Post</a></li>
+							</ul>
+						</li>
+						<li class="submenu-link"><a class="arrow" href="#">Features</a>
+							<!-- Submenu-->
+							<ul>
+								<li><a href="grid.html">Grid</a></li>
+								<li><a href="typography.html">Typography</a></li>
+								<li><a href="elements.html">Elements</a></li>
+							</ul>
+						</li>
+						<li><a href="about.html">About</a></li>
+						<li><a href="index.html">Cooking</a></li>
+						<li><a href="index.html">Photography</a></li>
+						<li><a href="contact.html">Contact</a></li>
+					</ul>
+				</div>
+			</nav>
+			<button class="close-button" id="close-button"></button>
+		</div> 
+		<button class="menu-button" id="open-button">Open Menu</button>
+
+
+		<div class="content-wrap">
+			<div class="content">
+
+				<!-- Header Container -->
+				<header class="main-header">
+
+			   		<!-- Top head container -->
+					<div class="main-header__top">
+						<div class="container">
+							<div class="eight columns">
+
+								<!-- Search Form -->
+								<div class="main-header__search">
+									<input id="header-search" type="search" placeholder="Search">
+								</div>
+							</div>
+							<div class="eight columns">
+
+								<!-- Social Links -->
+								<div class="main-header__social">
+									<ul class="main-header__social-links">
+										<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+										<!--<li><a href="#"><i class="fa fa-behance"></i></a></li>
+										<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+										<li><a href="#"><i class="fa fa-tumblr"></i></a></li>-->
+										<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+										<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Logo in header container -->
+					<div class="main-header__logo">
+						<div class="container">
+							<div class="sixteen columns">
+
+								<!-- Logo Link and Image -->
+								<a class="header__logo" href="index.html">
+									<img src="static/images/logo.png" alt="Vanilia - blogging wordpress theme." />
+								</a>
+							</div>
+						</div>
+					</div>
+
+					<!-- Navigation menu container -->
+					<div class="main-header__navigation" id="sticky">
+						<div class="container">
+							<div class="sixteen columns">
+					
+								<!-- Navigation List -->
+								<div class="table">
+									<ul class="navigation__list">
+										<li class="submenu-link"><a class="arrow" href="index.html">Home</a>
+											<!-- Submenu-->
+											<ul>
+												<li><a href="index.html">Carousel</a></li>
+												<li><a href="index-slider.html">Slider</a></li>
+												<li><a href="index-animations.html">Scroll Animations</a></li>
+												<li><a href="index-sidebar.html">Sidebar</a></li>
+											</ul>
+										</li>
+										<li class="submenu-link"><a class="arrow" href="#">Post Types</a>
+											<!-- Submenu-->
+											<ul>
+												<li><a href="single.html">Default</a></li>
+												<li><a href="single-sidebar.html">Sidebar</a></li>
+												<li><a href="single-fullscreen.html">Fullscreen Parallax</a></li>
+												<li><a href="single-video.html">Video Post</a></li>
+												<li><a href="single-gallery.html">Gallery Post</a></li>
+												<li><a href="single-audio.html">Audio Post</a></li>
+											</ul>
+										</li>
+										<li class="submenu-link"><a class="arrow" href="#">Features</a>
+											<!-- Submenu-->
+											<ul>
+												<li><a href="grid.html">Grid</a></li>
+												<li><a href="typography.html">Typography</a></li>
+												<li><a href="elements.html">Elements</a></li>
+											</ul>
+										</li>
+										<li><a href="about.html">About</a></li>
+										<li><a href="index.html">Cooking</a></li>
+										<li><a href="index.html">Photography</a></li>
+										<li><a href="contact.html">Contact</a></li>
+									</ul>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+				</header>
+
+				<!-- Featured Posts Slider -->
+				<!--
+				<section class="slider">
+
+					<figure class="slider__item">
+						<img class="lazyOwl" data-src="static/images/slider5.jpg" src="static/images/slider5.jpg" alt="" />
+						<figcaption class="slide__caption">
+							<p>recipes</p>
+							<a href="single.html"><h2>Delicious grilled skewers.</h2></a>
+							<a class="slider__button" href="#">read</a>
+						</figcaption>
+					</figure>
+
+					<figure class="slider__item">
+						<img class="lazyOwl" data-src="static/images/slider1.jpg" src="static/images/slider1.jpg" alt="" />
+						<figcaption class="slide__caption">
+							<p>recipes</p>
+							<a href="single.html"><h2>Delicious grilled skewers.</h2></a>
+							<a class="slider__button" href="#">read</a>
+						</figcaption>
+					</figure>
+
+					<figure class="slider__item">
+						<img class="lazyOwl" data-src="static/images/slider4.jpg" src="static/images/slider4.jpg" alt="" />
+						<figcaption class="slide__caption">
+							<p>recipes</p>
+							<a href="single.html"><h2>Delicious grilled skewers.</h2></a>
+							<a class="slider__button" href="#">read</a>
+						</figcaption>
+					</figure>
+
+					<figure class="slider__item">
+						<img class="lazyOwl" data-src="static/images/slider3.jpg" src="static/images/slider3.jpg" alt="" />
+						<figcaption class="slide__caption">
+							<p>recipes</p>
+							<a href="single.html"><h2>Delicious grilled skewers.</h2></a>
+							<a class="slider__button" href="#">read</a>
+						</figcaption>
+					</figure>
+
+					<figure class="slider__item">
+						<img class="lazyOwl" data-src="static/images/slider2.jpg" src="static/images/slider2.jpg" alt="" />
+						<figcaption class="slide__caption">
+							<p>recipes</p>
+							<a href="single.html"><h2>Delicious grilled skewers.</h2></a>
+							<a class="slider__button" href="#">read</a>
+						</figcaption>
+					</figure>
+
+				</section>
+				-->
+
+
+				<!-- Main Content ( list of posts ) 
+				=================================== -->
+				<section class="main-content">
+
+					<div class="container">
+
+						<div class="sixteen columns">
+
+							{% block main %}{% endblock %}
+
+							<!-- Homepage Post -->
+							<article class="main-content__post scrollme">
+
+								<!-- Post image -->
+								<a href="http://likeariot.com/wp-content/uploads/2015-10-011.jpg" class="swipebox"><img src="http://likeariot.com/wp-content/uploads/2015-10-011.jpg" alt="At the Office of the King's Attorney." /></a>
+								
+								<!-- Post header -->
+								<header class="post__header">
+									<time class="post__time" datetime="2014-10-17"><span class="time_large">17<sup>th</sup></span> October</time>
+									<p class="post__meta">Posted by <a href="about.html">Lorene</a> in <a href="#">Story</a></p>
+									<h2 class="post__title"><a href="single.html">At the Office of the King's Attorney.</a></h2>
+								</header>
+
+								<div class="post__content">
+									<p class="post__excerpt">The Young Amelia was first at the rendezvous. In spite of his usual command over himself, Dantes could not restrain his impetuosity. He was the first to jump on shore; and had he dared, he would, like Lucius Brutus, have "kissed his mother earth."</p>
+								</div>
+
+								<div class="post__button">
+									<a class="btn" href="single.html">read</a>
+								</div>
+
+							</article><!-- / Post -->
+
+
+							<!-- Homepage Video Post -->
+							<article class="main-content__post post-video scrollme">
+
+								<!-- Post Video -->
+								<div class="yt_container" data-pe-videoid="uQBL7pSAXR8"></div>
+
+								<!-- Post header -->
+								<header class="post__header">
+									<time class="post__time" datetime="2014-4-28"><span class="time_large">28<sup>th</sup></span> April, 2014</time>
+									<p class="post__meta">Posted by <a href="about.html">Lorene</a> in <a href="#">Story</a></p>
+									<h2 class="post__title"><a href="single-video.html">Pretty video embed from YouTube!</a></h2>
+								</header>
+
+								<div class="post__content">
+									<p class="post__excerpt">The Young Amelia was first at the rendezvous. In spite of his usual command over himself, Dantes could not restrain his impetuosity. He was the first to jump on shore; and had he dared, he would, like Lucius Brutus, have "kissed his mother earth."</p>
+								</div>
+
+								<div class="post__button">
+									<a class="btn" href="single-video.html">read</a>
+								</div>
+
+							</article><!-- / Post -->
+
+
+							<!-- Homepage Quote Post -->
+							<article class="main-content__post post-quote scrollme">
+
+								<!-- Quote -->
+								<figure class="quote-icon">
+								<blockquote >
+							        <p>Investment, <a href="#">implementation</a> non-partisan Gandhi life-saving enable collaborative cities women's rights change movements vaccines cooperation emergency response transform the world. </p>
+							    </blockquote>
+
+								<!-- Post header -->
+								<header class="post__header">
+									<time class="post__time" datetime="2014-4-28"><span class="time_large">28<sup>th</sup></span> April, 2014</time>
+									<p class="post__meta">Posted by <a href="about.html">Lorene</a> in <a href="#">Story</a></p>
+								</header>
+
+							</article><!-- / Post -->
+
+
+							<!-- Homepage Audio Post -->
+							<article class="main-content__post post-audio scrollme">
+
+								<!-- Audio Embed -->
+								<iframe width="100%" height="450" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/174417235&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true"></iframe>
+
+								<!-- Post header -->
+								<header class="post__header">
+									<time class="post__time" datetime="2014-4-28"><span class="time_large">28<sup>th</sup></span> April, 2014</time>
+									<p class="post__meta">Posted by <a href="#">Lorene</a> in <a href="#">Story</a></p>
+									<h2 class="post__title"><a href="single-audio.html">Audio Post Example.</a></h2>
+								</header>
+
+								<div class="post__content">
+									<p class="post__excerpt">The Young Amelia was first at the rendezvous. In spite of his usual command over himself, Dantes could not restrain his impetuosity. He was the first to jump on shore; and had he dared, he would, like Lucius Brutus, have "kissed his mother earth."</p>
+								</div>
+
+								<div class="post__button">
+									<a class="btn" href="single-audio.html">read</a>
+								</div>
+
+							</article><!-- / Post -->
+
+
+							<!-- Homepage Gallery Post -->
+							<article class="main-content__post post-gallery scrollme">
+
+								<!-- Gallery -->
+								<div class="post__gallery">
+									<img class="lazyOwl" data-src="static/images/choco.jpg" src="static/images/choco.jpg" alt="" />
+									<img class="lazyOwl" data-src="static/images/tort.jpg"  src="static/images/tort.jpg" alt="" />
+									<img class="lazyOwl" data-src="static/images/coctail.jpg"  src="static/images/coctail.jpg" alt="" />
+								</div>
+
+								<!-- Post header -->
+								<header class="post__header">
+									<time class="post__time" datetime="2014-4-28"><span class="time_large">28<sup>th</sup></span> April, 2014</time>
+									<p class="post__meta">Posted by <a href="about.html">Lorene</a> in <a href="#">Story</a></p>
+									<h2 class="post__title"><a href="single-gallery.html">Post Gallery Example.</a></h2>
+								</header>
+
+								<div class="post__content">
+									<p class="post__excerpt">The Young Amelia was first at the rendezvous. In spite of his usual command over himself, Dantes could not restrain his impetuosity. He was the first to jump on shore; and had he dared, he would, like Lucius Brutus, have "kissed his mother earth."</p>
+								</div>
+
+								<div class="post__button">
+									<a class="btn" href="single-gallery.html">read</a>
+								</div>
+
+							</article><!-- / Post -->
+
+						</div>
+
+					</div><!-- / Container -->
+
+				</section><!-- / Main Content -->
+
+
+				<!-- Prev / Next Page -->
+				<section class="pagination">
+
+					<div class="container">
+
+						<div class="ten columns offset-by-three">
+
+							<!-- Prev -->
+							<a class="pagination__prev" href="#"><i class="fa fa-arrow-circle-left"></i> Older Posts</a>
+
+							<!-- Numbers -->
+							<ul class="pagination__numbers">
+								<li><a class="pagination--active" href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+							</ul>
+
+							<!-- Next -->
+							<a class="pagination__next" href="#">Newer Posts <i class="fa fa-arrow-circle-right"></i> </a>
+
+						</div>
+
+					</div>
+
+				</section>
+
+				<!-- Twitter feed slider -->
+				<section class="twitter-feed">
+
+					<!-- Single Tweet -->
+					<article class="tweet">
+
+						<div class="container">
+
+							<div class="ten columns offset-by-three">
+
+								<!-- head of tweet -->
+								<header class="tweet__header">
+
+									<!-- Tweet author photo -->
+									<div class="tweet__avatar">
+										<img src="static/images/twitter_avatar.jpg" alt="" />
+									</div>
+
+									<!-- Tweet author name and nickname -->
+									<a href="#" class="tweet__author">John Doe<span class="tweet__nick">@johnydoesit</span></a>
+
+									<div class="tweet__separator">
+										<i class="fa fa-twitter"></i>
+									</div>
+
+								</header>
+
+								<blockquote class="tweet__content">
+									<p>New <a href="#">#EnvatoStories</a>: We meet Elite author Andy Wilkerson (Parallelus) down in Huntsville, Alabama.						<a href="#">https://www.youtube.com/watch?v=EfTUpv…</a> <a href="#">@AndyInTheWild</a></p>
+								</blockquote>
+
+							</div>
+
+						</div><!-- // Container -->
+
+					</article><!-- // Tweet -->
+
+
+					<!-- Single Tweet -->
+					<article class="tweet">
+
+						<div class="container">
+
+							<div class="ten columns offset-by-three">
+
+								<!-- head of tweet -->
+								<header class="tweet__header">
+
+									<!-- Tweet author photo -->
+									<div class="tweet__avatar">
+										<img src="static/images/twitter_avatar.jpg" alt="" />
+									</div>
+
+									<!-- Tweet author name and nickname -->
+									<a href="#" class="tweet__author">John Doe<span class="tweet__nick">@johnydoesit</span></a>
+
+									<div class="tweet__separator">
+										<i class="fa fa-twitter"></i>
+									</div>
+
+								</header>
+
+								<blockquote class="tweet__content">
+									<p>New <a href="#">#EnvatoStories</a>: We meet Elite author Andy Wilkerson (Parallelus) down in Huntsville, Alabama. <a href="#">https://www.youtube.com/watch?v=EfTUpv…</a> <a href="#">@AndyInTheWild</a></p>
+								</blockquote>
+
+							</div>
+
+						</div><!-- // Container -->
+
+					</article><!-- // Tweet -->
+
+
+					<!-- Single Tweet -->
+					<article class="tweet">
+
+						<div class="container">
+
+							<div class="ten columns offset-by-three">
+
+								<!-- head of tweet -->
+								<header class="tweet__header">
+
+									<!-- Tweet author photo -->
+									<div class="tweet__avatar">
+										<img src="static/images/twitter_avatar.jpg" alt="" />
+									</div>
+
+									<!-- Tweet author name and nickname -->
+									<a href="#" class="tweet__author">John Doe<span class="tweet__nick">@johnydoesit</span></a>
+
+									<div class="tweet__separator">
+										<i class="fa fa-twitter"></i>
+									</div>
+
+								</header>
+
+								<blockquote class="tweet__content">
+									<p>New <a href="#">#EnvatoStories</a>: We meet Elite author Andy Wilkerson (Parallelus) down in Huntsville, Alabama. <a href="#">https://www.youtube.com/watch?v=EfTUpv…</a> <a href="#">@AndyInTheWild</a></p>
+								</blockquote>
+
+							</div>
+
+						</div><!-- / Container -->
+
+					</article><!-- / Tweet -->
+
+				</section><!-- / Twitter feed slider -->
+
+
+				<!-- Footer -->
+				<footer class="footer">
+
+					<!-- Widgets Container -->
+					<section class="footer__widgets">
+
+						<div class="container">
+
+							<!-- widget -->
+							<div class="eight columns">
+								<div class="footer__widget">
+									<img src="static/images/logo_w.png" alt="" style="margin-top: 40px;" />
+									<p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos nulla varius volutpat.</p>
+								</div>
+							</div>
+
+							<!-- widget -->
+							<div class="eight columns">
+								<div class="footer__widget">
+									<h3 class="widget__title">Instagram</h3>
+									<ul class="widget__instagram">
+										<li><a href="#"><img src="static/images/insta1.jpg" alt="" /></a></li>
+										<li><a href="#"><img src="static/images/insta2.jpg" alt="" /></a></li>
+										<li><a href="#"><img src="static/images/insta3.jpg" alt="" /></a></li>
+										<li><a href="#"><img src="static/images/insta4.jpg" alt="" /></a></li>
+									</ul>
+								</div>
+							</div>
+
+						</div><!-- / Container -->
+
+					</section><!-- / Widgets Widgets -->
+
+					<!-- Bottom section of footer -->
+					<section class="footer__bottom">
+
+						<div class="container bordered">
+
+							<div class="eight columns">
+								
+								<!-- copyrights -->
+								<p class="copyrights">© 2014 Nevidethemes. All Rights Reserved</p>
+							</div>
+
+							<div class="eight columns">
+
+								<!-- Social Networks -->
+								<ul class="footer__socials">
+									<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+									<li><a href="#"><i class="fa fa-behance"></i></a></li>
+									<li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+									<li><a href="#"><i class="fa fa-tumblr"></i></a></li>
+									<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+									<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+								</ul>
+
+							</div>
+
+						</div><!-- / Container -->
+
+					</section><!-- / Bottom footer -->
+
+				</footer><!-- / Footer -->
+
+			</div><!-- Content -->
+
+		</div><!-- Wrap -->
+
+	</div>
+
+
+<!-- End Document
+================================================== -->
+	<!--
+	<script src="static/js/min/jquery-1.11.1.min.js"></script>
+	<script src="static/js/min/jquery-scrolltofixed-min.js"></script>
+	<script src="static/js/min/classie.min.js"></script>
+	<script src="static/js/min/owl.carousel.min.js"></script>
+	<script src="static/js/min/retina.min.js"></script>
+	<script src="static/js/min/smoothscroll.min.js"></script>
+	<script src="static/js/min/mobile-menu.min.js"></script>
+	<script src="static/js/min/placeholdem.min.js"></script>
+	<script src="static/js/min/jquery.parallax-1.1.3.min.js"></script>
+	<script src="static/js/min/jquery.prettyembed.min.js"></script>
+	<script src="static/js/min/fitvids.min.js"></script>
+	<script src="static/js/min/jquery.skippr.min.js"></script>
+	<script src="static/js/min/jquery.swipebox.min.js"></script>
+	<script src="static/js/min/jquery.scrollme.min.js"></script>
+	<script src="static/js/min/main.min.js"></script>
+	-->
+</body>
+</html>

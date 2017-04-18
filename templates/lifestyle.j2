@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load i18n mezzanine_tags blog_tags keyword_tags disqus_tags staticfiles %}
+
+{% block main %}
+<div style="">
+<h1 style="font-family: 'Beyond'; font-weight: normal; color: pink; font-size: 4em; text-align: center; margin-bottom: 10px;">Lifestyle</h1>
+{% blog_categories as categories %}
+{% if categories %}
+	<div style="border-bottom: 1px solid #EEE; border-top: 1px solid #EEE;">
+		<ul class="flex-container center navigation__list subcategories">
+			<li>
+				<a href="/section/lifestyle">All</a>
+			</li>
+			{% for category in categories %}
+				{% if category.title == 'Food & Drinks' or category.title == 'Beauty' or category.title == 'Interior' or category.title == 'DIY' or category.title == 'Home Decor' or category.title == 'Thoughts & Motivational' or category.title == 'Christmas' or category.title == 'Think Green' or category.title == 'Wedding' %}
+				<li>
+					<a href="{% url "section" "lifestyle" category.slug %}">{{ category }}</a>
+				</li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	</div>
+	<br>
+	<div class="flex-grid">
+		{% for blog_post in blog_posts.object_list %}
+			<a class="flex-grid-anchor" href="{{blog_post.get_absolute_url}}">
+			<div class="flex-grid-item">
+				<div class="inner-container" style="position: relative; display: inline;">
+					{% if blog_post.featured_image %}
+						<img class="flex-grid-image" src="{{ blog_post.featured_image.url }}"/>
+					{% else %}
+						<img class="flex-grid-image" src="/static/images/footerimage.png"/>
+					{% endif %}
+					<div class="heading-container">
+							<h2 class="post-title-small">{{blog_post.title}}</h2>
+					</div>
+				</div>
+				{% if blog_post.description != blog_post|stringformat:"s" %}
+					<div class="description-container">
+						<p class="description">
+							{{ blog_post.description|truncatechars_html:100|safe }}
+						</p>
+					</div>
+				{% endif %}
+			</div>
+			</a>
+		{% endfor %}
+	</div>
+{% endif %}
+
+{% pagination_for blog_posts %}
+
+</div>
+{% endblock %}

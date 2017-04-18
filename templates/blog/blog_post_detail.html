@@ -1,0 +1,221 @@
+{% extends "blog/blog_post_list.html" %}
+{% load mezzanine_tags comment_tags keyword_tags rating_tags i18n disqus_tags staticfiles %}
+
+{% block meta_title %}{{ blog_post.meta_title }}{% endblock %}
+
+{% block meta_keywords %}{% metablock %}
+{% keywords_for blog_post as tags %}
+{% for tag in tags %}{% if not forloop.first %}, {% endif %}{{ tag }}{% endfor %}
+{% endmetablock %}{% endblock %}
+
+{% block meta_description %}{% metablock %}
+{{ blog_post.description }}
+{% endmetablock %}{% endblock %}
+
+
+
+{% block title %}
+{% editable blog_post.title %}{{ blog_post.title }}{% endeditable %}
+{% endblock %}
+
+{% block breadcrumb_menu %}
+{{ block.super }}
+<li class="active">{{ blog_post.title }}</li>
+{% endblock %}
+
+{% block main %}
+<div style="">
+	<link rel="stylesheet" type='text/css' href="{% static "css/post_detail.css" %}">
+	<h2 class="post__title">{{ blog_post.title }}</h2>
+
+	{% block blog_post_detail_featured_image %}
+	{% if settings.BLOG_USE_FEATURED_IMAGE and blog_post.featured_image %}
+		<p style="text-align: center;">
+			<img class="featured-image" src="{{ blog_post.featured_image.url }}">
+		</p>
+	{% endif %}
+	{% endblock %}
+
+	<time class="post__time" datetime="blog_post.publish_date">
+		{% with blog_post.publish_date.day as date_day %}
+		{% with date_day|stringformat:"i" as string_day %}
+		{% with string_day|slice:"-1:" as last %}
+		{% if string_day == '10' or string_day == '11' or string_day == '12' or string_day == '13' %}
+			<span class="time_large">{{blog_post.publish_date.day}}<sup>th</sup>
+		{% elif last == '1' %}
+			<span class="time_large">{{blog_post.publish_date.day}}<sup>st</sup>
+		{% elif last == '2' %}
+			<span class="time_large">{{blog_post.publish_date.day}}<sup>nd</sup>
+		{% elif last == '3' %}
+			<span class="time_large">{{blog_post.publish_date.day}}<sup>rd</sup>
+		{% else %}
+			<span class="time_large">{{blog_post.publish_date.day}}<sup>th</sup>
+		{% endif %}
+			</span> {{ blog_post.publish_date|date:"F" }}
+			<span>{{ blog_post.publish_date.year }}</span>
+		{% endwith %}
+		{% endwith %}
+		{% endwith %}
+	</time>
+
+	{% if settings.COMMENTS_DISQUS_SHORTNAME %}
+	{% include "generic/includes/disqus_counts.html" %}
+	{% endif %}
+
+	{% block blog_post_detail_content %}
+	{# {% editable blog_post.content %} #}
+	<div style="font-family: 'Baskerville';">
+		{{ blog_post.content|richtext_filters|safe }}
+	</div>
+	{# {% endeditable %} #}
+	{% endblock %}
+
+
+	<div class="post_tags" style="text-align: center; font-style: italic;">
+		{% with blog_post.categories.all as categories %}
+			{% if categories %}
+		{# {% trans "in" %} #}
+		<!--in-->
+				{% for category in categories %}
+					<a href="{% url "blog_post_list_category" category.slug %}">
+						#{{ category }}
+					</a>
+					{# {% if not forloop.last %}, {% endif %} #}
+				{% endfor %}
+			{% endif %}
+		{% endwith %}
+	</div>
+
+<p style="font-family: 'Baskerville'; text-align: center; font-size: 20px; margin-top: 25px; margin-bottom: -5px;"><span style="font-weight: bold;">Follow on:</span> <a target="_blank" href="http://www.bloglovin.com/blog/11173263/like-a-riot-fashion-amp-travel-blog">Bloglovin</a> - <a target="_blank" href="https://www.facebook.com/LikeRiot">Facebook</a> - <a target="_blank" href="https://www.instagram.com/wearelikeariot/">Instagram</a> - <a target="_blank" href="https://www.pinterest.com/wearelikeariot">Pinterest</a> - <a href="http://eepurl.com/cnn04z">subscribe to Newsletter</a></p>
+
+<p class="disclaimer" style="font-family: 'Baskerville'; text-align: center;">DISCLAIMER: All items/clothes marked with an asterisk (*) are sponsored. This article might furthermore contain affiliate links. We may therefore receive commissions for purchases made through said links. Nevertheless, all tips and products shown and linked to are things we highly recommend. We will never put anything on Like A Riot that we haven’t verified and/or personally used. All paid posts are furthermore clearly marked as such.</p>
+{#{% block blog_post_detail_rating %}#}
+{#<div class="panel panel-default rating">#}
+{#    <div class="panel-body">#}
+{#    {% rating_for blog_post %}#}
+{#    </div>#}
+{#</div>#}
+{#{% endblock %}#}
+
+</div>
+
+{% block blog_post_detail_sharebuttons %}
+<div style="text-align: center;">
+	
+	{% set_short_url_for blog_post %}
+	<h2 style="    font-family: 'Denigan';
+    	font-size: 30px;
+    	font-weight: normal;
+    	text-align: center;
+    	margin-top: 40px;">Happiness only real when shared</h2>
+	<!--<span>share on:</span>-->
+	<ul class="share__socials">
+		<li>
+			<a target="_blank" href="http://www.facebook.com/share.php?u={{blog_post.short_url|urlencode}}&title=likeariot&src=share_button">
+				<i class="fa fa-facebook"></i>
+			</a>
+		</li>
+		<li>
+			<a target="_blank" href="//www.reddit.com/submit" onclick="window.location = '//www.reddit.com/submit?url=' + encodeURIComponent(window.location);+'&newwindow=1' return false">
+				<i class="fa fa-reddit"></i>
+			</a>
+		</li>
+		<li>
+			<a target="_blank" href="http://twitter.com/home?status={{ blog_post.short_url|urlencode }}%20{{ blog_post.title|urlencode }}&text=Like a riot">
+				<i class="fa fa-twitter"></i>
+			</a>
+		</li>
+		<li>
+			<a href="mailto:Friend@friendsemail.com?Subject=Check%20out%20this%20post%20on%20Like%20a%20Riot%21&Body={{blog_post.short_url|urlencode}}">
+				<i class="fa fa-envelope"></i>
+			</a>
+		</li>
+		<!--<li>
+			<a href="feed://likeariot.com/feed/">
+				<i class="fa fa-stumbleupon"></i>
+			</a>
+		</li>-->
+		<li>
+			<a target="_blank" data-pin-do="buttonBookmark" href="https://www.pinterest.com/pin/create/button/?url={{blog_post.short_url|urlencode}}&media=https://s-media-cache-ak0.pinimg.com/736x/17/34/8e/17348e163a3212c06e61c41c4b22b87a.jpg&description=So%20delicious!" data-pin-custom="true">
+					<i class="fa fa-pinterest"></i>
+			</a>
+			<!--<a target="_blank" href="//pinterest.com/pin/create/link/?url={{blog_post.short_url|urlencode}}">-->
+			</a>
+		</li>
+		<li>
+			<a data-flip-widget="ico" href="https://flipboard.com?utm_campaign=widgets&utm_source=logo&utm_medium=web&action=follow">
+				<img  style="height: 14px;" src="http://cdn.flipboard.com/badges/flipboard_mbrt.png" alt="Flipboard" />
+			</a>
+		</li>
+	</ul>
+	<!--<script>
+		document.getElementById('shareBtn').onclick = function() {
+		console.log('postUrl: ' + window.location.href);
+		FB.ui({
+			method: 'share',
+			display: 'popup',
+			href: window.location.href,
+			}, function(response){});
+		}
+	</script>-->
+	</div>
+</div>
+{% endblock %}
+
+
+{% block blog_post_detail_related_posts %}
+	<div style="margin-left: 30px; margin-right: 30px; z-index: 3; position: relative; border: lightgray solid 1px; margin-bottom: 30px; margin-top: 10px; padding-bottom: 25px; display: -webkit-flex; -webkit-align-items: flex; -webkit-flex-direction: column;">
+	{% if related_posts %}
+		<h3 style="text-align: center; font-family: 'Baskerville">{% trans 'Wir hätten zum Thema auch noch diese Artikel hier in petto:' %}</h3>
+		<div class="flex-grid" id="related-posts" style="z-index: 3; position: relative; margin-top: 10px;">
+			{% for post in related_posts|slice:":4" %}
+				<div class="flex-grid-item" style="max-width: 200px;">
+					<div class="inner-container" style="position: relative; display: inline;">
+						<a href="{{ post.get_absolute_url }}">
+							{% if post.featured_image %}
+								<img class="flex-grid-image" src="{{ post.featured_image.url }}"/>
+							{% else %}
+								<img class="flex-grid-image" src="/static/images/footerimage.png"/>
+							{% endif %}
+							<div class="heading-container">
+								<h2 style="font-family: 'Denigan'; font-weight: normal; text-align: center;">
+								{{post.title}}
+								</h2>
+							</div>
+						</a>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	{% else %}
+		<h3 style="text-align: center; font-family: 'Baskerville">{% trans 'no related posts' %}</h3>
+	{% endif %}
+	</div>
+{% endblock %}
+
+
+{% block blog_post_previous_next %}
+	<div class="sixteen columns" style="display: flex; display: -webkit-flex; justify-content: space-between; -webkit-justify-content: space-between; z-index: 3; position: relative;">
+		{% with blog_post.get_next_by_publish_date as next %}
+				<a class="pagination__next next" href="{{ next.get_absolute_url }}" {% if next %} style="visibility: visible;" {% else %} style="visibility: hidden;" {% endif %}">
+					<p class="pagination_text right">previous post</p>
+					<img class="arrow_pag" src="{% static "images/arrowprev.png" %}">
+				</a>
+		{% endwith %}
+		{% with blog_post.get_previous_by_publish_date as previous %}
+				<a class="pagination__prev prev previous" href="{{ previous.get_absolute_url }}" {% if previous %} style="visibility: visible;" {% else %} style="visibility: hidden;" {% endif %}>
+					<p class="pagination_text left">next post</p>
+					<img class="arrow_pag" src="{% static "images/arrownext.png" %}">
+				</a>
+		{% endwith %}
+	</div>
+{% endblock %}
+
+
+<div style="margin-right: 30px; margin-left: 30px; align-items: center; display: flex; flex-direction: column;">
+{% block blog_post_detail_comments %}
+	{% if blog_post.allow_comments %}{% comments_for blog_post %}{% endif %}
+{% endblock %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% load i18n mezzanine_tags static %}
+
+{% block meta_title %}{% trans "Search Results" %}{% endblock %}
+{% block title %}{% trans "Search Results" %}{% endblock %}
+{% block extra_head %}
+<meta name="robots" content="noindex">
+{% endblock %}
+
+{% block breadcrumb_menu %}
+<li>
+	<a href="{% url "home" %}">{% trans "Home" %}</a>
+</li>
+<li class="active">{% trans "Search Results" %}</li>
+{% endblock %}
+
+{% block main %}
+
+<h1 style="font-family: 'Beyond'; font-weight: normal; color: pink; font-size: 2em; text-align: center; margin-bottom: 10px;">
+{% if results.paginator.count == 0 %}
+{% blocktrans %}
+No results were found in {{ search_type }} for: {{ query }}
+{% endblocktrans %}
+{% else %}
+<!--{% blocktrans with start=results.start_index end=results.end_index total=results.paginator.count %}
+Showing {{ start }} to {{ end }} of {{ total }} results in {{ search_type }} matching your query: {{ query }}
+{% endblocktrans %}-->
+Here are your search results for {{ query }}
+{% endif %}
+</h1>
+
+<!--<div id="search-results">
+	<div class="flex-grid">
+		{% for result in results.object_list %}
+			{% with result.get_absolute_url as result_url %}
+				<div class="flex-grid-item">
+					{# {{ forloop.counter0|add:results.start_index }}) #}
+					{% if result_url %}
+						{% if result.featured_image %}
+							<img class="flex-grid-image" src="{{ result.featured_image.url }}"/>
+							<a href="{{ result_url }}"><p style="text-align: center;">{{ result }}</p></a>
+						{% else %}
+							<img class="flex-grid-image" src="/static/images/Headerfinal.jpg"/>
+							<a href="{{ result_url }}"><p style="text-align: center;">{{ result }}</p></a>
+						{% endif %}
+					{% else %}
+						{{ result }}
+					{% endif %}
+					{% if result.description != result|stringformat:"s" %}
+						<p class="description">
+							{{ result.description|truncatechars_html:100|safe }}
+						</p>
+					{% endif %}
+					{% if result_url %}
+						<div class="post__button">
+							<a class="read_button" href="{{ result_url }}">
+								<p>more</p>
+								<img class="arrow1" src="{% static "images/arrow1.png" %}" />
+							</a>
+						</div>
+					{% endif %}
+				</div>
+			{% endwith %}
+		{% endfor %}
+	</div>
+</div>-->
+
+<div id="search-results">
+	<div class="flex-grid">
+		{% for result in results.object_list %}
+			<a class="flex-grid-anchor" href="{{result.get_absolute_url}}">
+			<div class="flex-grid-item">
+				<div class="inner-container" style="position: relative; display: inline;">
+					{% if result.featured_image %}
+						<img class="flex-grid-image" src="{{ result.featured_image.url }}"/>
+					{% else %}
+						<img class="flex-grid-image" src="/static/images/footerimage.png"/>
+					{% endif %}
+					<div class="heading-container">
+						<h2 class="post-title-small">{{result.title}}</h2>
+					</div>
+				</div>
+				{# {% if result.description != result|stringformat:"s" %} #}
+					{# <div class="description-container"> #}
+						{# <p class="description"> #}
+							{# {{ result.description|truncatechars_html:100|safe }} #}
+						{# </p> #}
+					{# </div> #}
+				{# {% endif %} #}
+			</div>
+			</a>
+		{% endfor %}
+	</div>
+</div>
+
+{% pagination_for results %}
+
+{% endblock %}

@@ -1,0 +1,83 @@
+{% load i18n staticfiles %}
+
+{% if current_page.has_previous or current_page.has_next %}
+
+<section class="pagination">
+	<div class="container">
+		<div class="sixteen columns">
+
+		<!-- Prev -->
+		<a {% if current_page.has_previous == False %} style="visibility: hidden;" {% endif %}
+		{% if current_page.has_previous %}
+		href="?{{ page_var }}={{ current_page.previous_page_number }}{% if querystring %}&{{ querystring }}{% endif %}"{% endif %} 
+		class="pagination__prev prev previous{% if not current_page.has_previous %} disabled{% endif %}" href="#">
+			<!--<i class="fa fa-arrow-circle-left"></i>-->
+			<p class="pagination_text left">Previous</p>
+			<img class="arrow_pag" src="{% static "images/arrowprev.png" %}">
+		</a>
+
+		<!-- Numbers -->
+		<ul class="pagination__numbers">
+			{% for page in current_page.visible_page_range %}
+				<li{% if page == current_page.number %} class="pagination-active" {% else %} class="pagination-inactive"{% endif %}>
+					<a href="?{{ page_var }}={{ page }}{% if querystring %}&{{ querystring }}{% endif %}">{{ page }}</a>
+				</li>
+			{% endfor %}
+			{% if current_page.has_next %}
+				<li class="pagination-inactive">
+					<a>...</a>
+				</li>
+				<li class="pagination-inactive">
+					<a href="?page={{current_page.paginator.num_pages}}">{{ current_page.paginator.num_pages }}</a>
+				</li>
+			{% endif %}
+			<li>
+				<form>
+					<input class="jump-to" style="width: 60px;" placeholder="Jump to" type="text" name="page">
+					<input class="btn godo" type="submit" value="GO DO!">
+				</form>
+			</li>
+			<!--<li><input style="width: 60px;" placeholder="Jump to" type="text"></input></li>-->
+			<!--<li><div class="btn">GO DO!</div></li>-->
+			<!--<li><a class="pagination--active" href="#">1</a></li>
+			<li><a href="#">2</a></li>
+			<li><a href="#">3</a></li>-->
+		</ul>
+
+
+		<!-- Next -->
+		<a {% if current_page.has_next == False %} style="visibility: hidden;" {% endif %}
+		{% if current_page.has_next %} 
+		class="pagination__next next{% if not current_page.has_next %} disabled{% endif %}" 
+		href="?{{ page_var }}={{ current_page.next_page_number }}{% if querystring %}&{{ querystring }}{% endif %}"{% endif %}>
+		<p class="pagination_text right">Next</p>
+		<!--<i class="fa fa-arrow-circle-right"></i>-->
+		<img class="arrow_pag" src="{% static "images/arrownext.png" %}">
+		</a>
+
+		<!--
+			<ul class="pagination">
+
+			<li class="page-info">
+			    <span>{% trans "Page" %} {{ current_page.number }} {% trans "of" %} {{ current_page.paginator.num_pages }}</span>
+			</li>
+			<li class="prev previous{% if not current_page.has_previous %} disabled{% endif %}">
+			    <a{% if current_page.has_previous %} href="?{{ page_var }}={{ current_page.previous_page_number }}{% if querystring %}&{{ querystring }}{% endif %}"{% endif %}>&larr;</a>
+			</li>
+			{% for page in current_page.visible_page_range %}
+			<li{% if page == current_page.number %} class="active"{% endif %}>
+			    <a href="?{{ page_var }}={{ page }}{% if querystring %}&{{ querystring }}{% endif %}">{{ page }}</a>
+			</li>
+			{% endfor %}
+			<li class="next{% if not current_page.has_next %} disabled{% endif %}">
+			    <a{% if current_page.has_next %} href="?{{ page_var }}={{ current_page.next_page_number }}{% if querystring %}&{{ querystring }}{% endif %}"{% endif %}>&rarr;</a>
+			</li>
+
+			</ul>
+		-->
+
+		</div>
+	</div>
+</section>
+
+{% endif %}

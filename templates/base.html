@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html lang="{{ LANGUAGE_CODE }}"{% if LANGUAGE_BIDI %} dir="rtl"{% endif %}>
+<!--<![endif]-->
+{% load pages_tags mezzanine_tags i18n staticfiles %}
+
+<head>
+
+	<!-- Basic Page Needs
+  ================================================== -->
+	<meta charset="utf-8">
+	<!--<title>Like A Riot</title>-->
+	<title>{{ settings.SITE_TITLE }}</title>
+	<meta name="description" content="A personal lifestyle & fashion blog written by Linda & Caro, two German girls living their dream in Iceland.">
+	<meta name="author" content="">
+
+	<link rel="alternate" type="application/rss+xml" title="Like A Riot - Lifestyle & Fashion Blog" href="/feeds/rss/" />
+	<meta name="google-site-verification" content="-R7e7_h5WvJ_SdV4HxsYaI-aqBNYONv8GettlQC6PVg" />
+
+	<!-- Mobile Specific Metas
+  ================================================== -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<meta property="og:url"           content="likeariot.com" />
+	<meta property="og:type"          content="website" />
+	<meta property="og:title"         content="Like a Riot" />
+	<meta property="og:description"   content="Fashion and Lifestyle blog" />
+	<meta property="og:image"         content="/static/images/headerfinal.jpg" />
+
+	<!-- CSS
+  ================================================== -->
+	<link rel="stylesheet" type='text/css' href="{% static "css/reset.css" %}">
+	<link rel="stylesheet" type='text/css' href="{% static "css/grid.css" %}">
+	<link rel="stylesheet" type='text/css' href="{% static "css/layout.css" %}">
+	<link rel="stylesheet" type='text/css' href="{% static "css/owl.carousel.css" %}">
+	<link rel="stylesheet" type='text/css' href="{% static "css/font-awesome.min.css" %}">
+	<link rel="stylesheet" type='text/css' href="{% static "css/swipebox.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "css/scrollToTop.css" %}">
+	<link rel="stylesheet" type="text/css" href="{% static "css/easing.css" %}">
+
+	<link href='http://fonts.googleapis.com/css?family=Merriweather:400,700italic,400italic,300,900,900italic,700,300italic' rel='stylesheet' type='text/css'>
+
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<!-- Favicons
+	================================================== -->
+	<link rel="apple-touch-icon" sizes="180x180" href="{% static "images/apple-touch-icon.png" %}">
+	<link rel="icon" type="image/png" href="{% static "images/favicon-32x32.png" %}" sizes="32x32">
+	<link rel="icon" type="image/png" href="{% static "images/favicon-16x16.png" %}" sizes="16x16">
+	<link rel="manifest" href="{% static "images/manifest.json" %}">
+	<link rel="mask-icon" href="{% static "images/safari-pinned-tab.svg" %}" color="#5bbad5">
+	<meta name="theme-color" content="#ffffff">
+	<!--<link rel="shortcut icon" href="static/images/favicon.ico">-->
+
+	<!-- jQuery so embedded script will not fail -->
+	<script src="{% static "js/min/jquery-1.11.1.min.js" %}"></script>
+
+	<script>
+		window.fbAsyncInit = function() {
+			FB.init({
+				appId		: '261323924229538',
+				xfbml		: true,
+				version		: 'v2.6'
+			});
+		};
+
+		(function(d, s, id){
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) {return;}
+			js = d.createElement(s); js.id = id;
+			js.src = "//connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+	</script>
+	<script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
+<body>
+
+	<!-- Main Container -->
+	<div class="main__container">
+
+		<!-- Mobile Menu-->
+		<div class="mobile-menu__wrap">
+			<nav class="mobile-menu__nav">
+				<div class="icon-list">
+					<div class="mobile-menu__search">
+						<form action="{% url "search" %}" role="search">
+							<input id="mobile-search" class="flex-container flex-start form-control" placeholder="{% trans "Search" %}" type="search" name="q" value="{{ request.REQUEST.q }}">
+						</form>
+						<!--<input id="mobile-search" type="search" placeholder="Search...">-->
+					</div>
+					<ul class="mobile-menu__list">
+						<li style="border-bottom: lightgray solid 1px;">
+							<a href="/">Home</a>
+						</li>
+						<li style="border-bottom: lightgray solid 1px;">
+							<a href="/about">About</a>
+						</li>
+						<li style="border-bottom: lightgray solid 1px;">
+							<a href="/section/fashion">Fashion</a>
+						</li>
+						<li style="border-bottom: lightgray solid 1px;">
+							<a href="/section/iceland">Iceland</a>
+						</li>
+						<li style="border-bottom: lightgray solid 1px;">
+							<a href="/section/travel">Travel</a>
+						</li>
+						<li style="border-bottom: lightgray solid 1px;">
+							<a href="/section/lifestyle">Lifestyle</a>
+						</li>
+						<li style="border-bottom: lightgray solid 1px;">
+							<a href="/section/contact">Work with us</a>
+						</li>
+						<li style="border-bottom: lightgray solid 1px;">
+							<a href="/shop">Shop</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+			<button class="close-button" id="close-button"></button>
+		</div> 
+		<button class="menu-button" id="open-button">Open Menu</button>
+
+		<!-- The Modal -->
+		<div id="myModal" class="modal">
+
+			<!-- Modal content -->
+			<div class="modal-content">
+				<span id="close-modal" class="close" style="align-self: flex-end;">&times;</span>
+				<h2 style="font-family: 'Denigan'; color: pink; font-size: 30px; margin-bottom: -20px; margin-top: -60px;">Newsletter</h2>
+				<img class="modal-image" src="/static/images/footerimage.png" style="height: 190px;">
+				<img class="likeariot" src="{% static "images/likeariot.jpg" %}" style="margin-top: -8px; max-width: 140px;">
+				<p style="font-weight: bold; text-align: justify; margin-left: 20px; margin-right: 20px; margin-top: -5px; font-size: 13px;">Keinen Beitrag mehr verpassen?</p>
+				<p style="margin-right: 20px; margin-left: 20px; text-align: center; margin-top: -10px; font-size: 11px; margin-bottom: 0px;">Hinterlasst eure E-Mail Adresse und ihr bekommt, neben wöchentlichen Round-Ups, auch einzigartigen Content von uns, den es auf dem Blog so nicht gibt.</p>
+
+				<!-- Begin MailChimp Signup Form -->
+				<link href="//cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
+				<style type="text/css">
+					#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+					/* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+						We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+				</style>
+				<div id="mc_embed_signup" style="display: flex; width: 100%;">
+					<form action="//likeariot.us14.list-manage.com/subscribe/post?u=0423dabe292a60f22b26d8f8f&amp;id=b051b94a7b" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate style="width: 100%; padding-bottom: 0px; padding-top: 3px; margin-bottom: 0px;">
+						<div id="mc_embed_signup_scroll" style="display: flex; flex-direction: column; align-items: center;">
+							<div class="mc-field-group" style="padding-bottom: 0px; display: flex; flex-direction: column; align-items: center; min-height: 30px; margin-bottom: 10px;">
+								<input placeholder="Email Adresse (required)" style="font-size: 11px; width: 80%; text-align: center;" type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+							</div>
+							<div class="mc-field-group" style="padding-bottom: 0px; display: flex; flex-direction: column; align-items: center; min-height: 30px; margin-bottom: 10px;">
+								<input placeholder="Name (not required)" style="font-size: 11px; width: 80%; text-align: center;" type="text" value="" name="LNAME" class="" id="mce-LNAME">
+							</div>
+							<div id="mce-responses" class="clear">
+								<div class="response" id="mce-error-response" style="display:none"></div>
+								<div class="response" id="mce-success-response" style="display:none"></div>
+							</div><!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+							<div style="position: absolute; left: -5000px;" aria-hidden="true">
+								<input type="text" name="b_0423dabe292a60f22b26d8f8f_b051b94a7b" tabindex="-1" value="">
+							</div>
+							<div class="">
+								<input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+							</div>
+						</div>
+					</form>
+				</div>
+				<!--End mc_embed_signup-->
+
+			</div>
+
+		</div>
+
+		<div class="content-wrap">
+			<div class="content">
+
+				<!-- Header Container -->
+				<header class="main-header">
+
+					<!-- Logo in header container -->
+					<div class="main-header__logo">
+						<div class="container">
+							<div class="sixteen columns">
+
+								<!-- Logo Link and Image -->
+								<a class="header__logo" href="/">
+									<div id="header-image"></div>
+									<!--<img src="{% static "images/headerfinal.jpg" %}" alt="Like a Riot - Fashion and Lifestyle blog."/>-->
+								</a>
+							</div>
+						</div>
+					</div>
+
+					{% if request.get_full_path == '/' or '/?page=' in request.get_full_path %}
+						{% block featured %}{% endblock %}
+					{% endif %}
+
+
+					<div class="main-header__navigation" id="sticky">
+						<div class="wrapper">
+							<div id="header-left">
+								<div class="navigation__list flex-container center" style="display: flex; align-items: center;">
+									<!--<li>
+										<img class="lang-flag" src="{% static "images/usflag.jpg" %}">
+									</li>-->
+									{% search_form "all" %}
+									<!--<li class="main-header__search">
+										<input class="flex-container flex-start" id="header-search" type="search" placeholder="Search">
+									</li>-->
+								</div>
+							</div>
+							<div id="center">
+								<ul class="navigation__list flex-container center">
+									<li><a href="/">Home</a></li>
+									<li><a href="/about">About</a></li>
+									<li><a href="/section/fashion">Fashion</a></li>
+									<li><a href="/section/iceland">Iceland</a></li>
+									<li><a href="/section/travel">Travel</a></li>
+									<li><a href="/section/lifestyle">Lifestyle</a></li>
+									<li><a href="/contact">Work with us</a></li>
+								</ul>
+							</div>
+							<div id="header-right">
+								<ul class="navigation__list flex-container center">
+									<li>
+										<a href="/shop">SHOP
+										<i class="fa fa-heart-o"></i>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+
+					<!-- Navigation menu container -->
+					<div style="display: none;" class="main-header__navigation" id="sticky">
+
+						<div style="display: none;" class="container">
+							<!--<div class="sixteen columns">-->
+					
+								<!-- Navigation List -->
+								<div class="one-third left">
+									<div class="table">
+										<ul class="navigation__list">
+											<li id="search-input" class="main-header__search">
+												<input id="header-search" type="search" placeholder="Search">
+											</li>
+										</ul>
+									</div>
+								</div>
+								<div class="one-third">
+								<div class="table">
+									<ul class="navigation__list">
+										<!--<li><a href="#"><i class="fa fa-search"></i></a></li>-->
+										<!--<li id="search-input" class="main-header__search">
+											<input id="header-search" type="search" placeholder="Search">
+										</li>-->
+										<li><a href="/">Home</a></li>
+										<li><a href="/">About</a></li>
+										<li><a href="#">Fashion</a></li>
+										<li class="submenu-link"><a class="arrow" href="#">Wanderlust</a>
+											<!-- Submenu-->
+											<ul>
+												<li><a href="single.html">INSERT WORLD MAP HERE</a></li>
+											</ul>
+										</li>
+										<li><a href="">Lifestyle</a></li>
+										<li><a href="#">CLLCT</a></li>
+									</ul>
+								</div>
+								</div>
+								<div class="one-third right">
+								<div class="table">
+									<ul class="navigation__list">
+										<li>
+											<a href="https://www.facebook.com/LikeRiot">
+												<i class="fa fa-facebook"></i>
+											</a>
+										</li>
+										<li>
+											<a href="https://www.instagram.com/wearelikeariot/">
+												<i class="fa fa-instagram"></i>
+											</a>
+										</li>
+										<li>
+											<a href="https://www.instagram.com/livelikeariot/">
+												<i class="fa fa-instagram"></i>
+											</a>
+										</li>
+										<li>
+											<a href="http://www.bloglovin.com/blog/11173263/like-a-riot-fashion-amp-travel-blog">
+												<i class="fa fa-heart"></i>
+											</a>
+										</li>
+										<li>
+											<a href="https://twitter.com/LikeRiots">
+												<i class="fa fa-twitter"></i>
+											</a>
+										</li>
+										<li>
+											<a href="mailto:likeariot@zeitdeck.com">
+												<i class="fa fa-envelope"></i>
+											</a>
+										</li>
+										<li>
+											<a href="feed://likeariot.com/feeds/rss/">
+												<i class="fa fa-rss"></i>
+											</a>
+										</li>
+									</ul>
+								</div>
+								</div>
+							<!--</div>-->
+						</div>
+					</div>
+
+				</header>
+
+				<aside id="sticky-social">
+					<ul>
+						<li>
+							<a target="_blank" href="https://www.facebook.com/LikeRiot">
+								<i class="fa fa-facebook"></i>
+							</a>
+						</li>
+						<li>
+							<a target="_blank" href="https://www.instagram.com/wearelikeariot/">
+								<i class="fa fa-instagram"></i>
+							</a>
+						</li>
+						<li>
+							<a target="_blank" href="http://www.bloglovin.com/blog/11173263/like-a-riot-fashion-amp-travel-blog">
+								<i class="fa fa-heart"></i>
+							</a>
+						</li>
+						<li>
+							<a target="_blank" href="https://twitter.com/LikeRiots">
+								<i class="fa fa-twitter"></i>
+							</a>
+						</li>
+						<li>
+							<a target="_blank" href="mailto:likeariot@zeitdeck.com">
+								<i class="fa fa-envelope"></i>
+							</a>
+						</li>
+						<li>
+							<a target="_blank" href="feed://likeariot.com/feeds/rss/">
+								<i class="fa fa-rss"></i>
+							</a>
+						</li>
+						<li>
+							<a target="_blank" href="https://www.pinterest.com/wearelikeariot/">
+								<i class="fa fa-pinterest"></i>
+							</a>
+						</li>
+					</ul>
+				</aside>
+
+				<!-- Main Content ( list of posts ) 
+				=================================== -->
+				<section class="main-content">
+
+					<div class="container" style="display: flex; flex-direction: column; align-items: center;">
+
+						<!--<div class="six columns" style="float: right; margin-right: -220px; width: initial; margin-left: 0;">
+
+							{% block sidebar %}{% endblock %}
+						</div>-->
+						
+
+						<div class="sixteen columns" style="display: flex; display: -webkit-flex; flex-direction: column; -webkit-flex-direction: column; justify-content: center; -webkit-justify-content: center; align-items: stretch; -webkit-align-items: stretch;">
+
+							{% block main %}{% endblock %}
+
+						</div>
+
+					</div><!-- / Container -->
+
+				</section><!-- / Main Content -->
+
+				{% if request.get_full_path == '/' or '/?page=' in request.get_full_path %}
+					{% block about_section %} {% endblock %}
+				{% endif %}
+
+				<div class="container" id="welovecontainer">
+				<div class="sixteen columns" id="welovelink">
+					<img src="{% static "images/welove.jpg" %}" id="weloveimg">
+					<!-- COLLECTIVE WIDGET CODE START -->
+					<div class="shopsense-widget" data-options="%7B%22widgetId%22%3A%2258728814dd4edbf11424cfff%22%2C%22version%22%3A1%2C%22pid%22%3A%22uid6561-22725081-12%22%2C%22size%22%3A161%2C%22columns%22%3A5%2C%22rows%22%3A2%2C%22url%22%3A%22https%3A%2F%2Fapi.shopstyle.de%2Fapi%2Fv2%22%2C%22iframeHeight%22%3A412%2C%22iframeWidth%22%3A940%7D"> <script> !function(doc,s,id){ var e, p, cb; if(!doc.getElementById(id)) { e = doc.createElement(s); e.id = id; cb = new Date().getTime().toString(); p = '//shopsensewidget.shopstyle.com/widget-script.js?cb=1483804598058?cb=' + cb; e.src = p; doc.body.appendChild(e); } if(typeof window.ss_shopsense === 'object'){ if(doc.readyState === 'complete'){ window.ss_shopsense.init(); } } }(document, 'script', 'shopsensewidget-script'); </script>
+						<iframe src="//shopsensewidget.shopstyle.com/#/?options=%7B%22widgetId%22%3A%2258728814dd4edbf11424cfff%22%2C%22version%22%3A1%2C%22pid%22%3A%22uid6561-22725081-12%22%2C%22size%22%3A161%2C%22columns%22%3A5%2C%22rows%22%3A2%2C%22url%22%3A%22https%3A%2F%2Fapi.shopstyle.de%2Fapi%2Fv2%22%2C%22iframeHeight%22%3A412%2C%22iframeWidth%22%3A940%7D" height="412px" width="940px" seamless style="border: 0;">
+						</iframe>
+					</div>
+						<!-- COLLECTIVE WIDGET CODE END -->
+
+						<!--<iframe src="https://www.maedchenflohmarkt.de/widget/73931" id="maedchenflohmarkt_widget" frameborder="0" scrolling="yes" style="border:1px solid #e9e9e9;"></iframe>-->
+				</div>
+				</div>
+
+				<!-- Footer -->
+				<footer id="footer" class="footer">
+
+					<!-- Widgets Container -->
+					<section class="footer__widgets">
+
+						<div class="container">
+
+							<!-- widget -->
+							<div class="eight columns">
+								<div class="footer__widget">
+									<img src="{% static "images/footerimage.png" %}" alt="" />
+									<p>For all business inquiries:</p>
+									<p id="mailp">
+										<a class="mail footer_links" href="mailto:likeariot@zeitdeck.com">likeariot@zeitdeck.com</a>
+									</p>
+									<div style="">
+									<!-- Social Networks -->
+									<!--<img src="{% static "images/zeitdeck_badge.png" %}"/>-->
+									<ul class="footer__socials">
+										<li>
+											<a href="https://www.facebook.com/LikeRiot">
+												<i class="fa fa-facebook"></i>
+											</a>
+										</li>
+										<li>
+											<a href="https://www.instagram.com/wearelikeariot/">
+												<i class="fa fa-instagram"></i>
+											</a>
+										</li>
+										<!--<li>
+											<a href="https://www.instagram.com/livelikeariot/">
+												<i class="fa fa-instagram"></i>
+											</a>
+										</li>-->
+										<li>
+											<a href="http://www.bloglovin.com/blog/11173263/like-a-riot-fashion-amp-travel-blog">
+												<i class="fa fa-heart"></i>
+											</a>
+										</li>
+										<li>
+											<a href="https://twitter.com/LikeRiots">
+												<i class="fa fa-twitter"></i>
+											</a>
+										</li>
+										<li>
+											<a href="mailto:likeariot@zeitdeck.com">
+												<i class="fa fa-envelope"></i>
+											</a>
+										</li>
+										<li>
+											<a href="feed://likeariot.com/feeds/rss/">
+												<i class="fa fa-rss"></i>
+											</a>
+										</li>
+										<li>
+											<a href="https://www.pinterest.com/wearelikeariot/">
+												<i class="fa fa-pinterest"></i>
+											</a>
+										</li>
+									</ul>
+									</div>
+								</div>
+							</div>
+
+							<!-- widget -->
+							<div class="eight columns">
+								<div class="footer__widget">
+									<h3 class="widget__title">Follow our journey on 
+									<span id="instagram-name"><br>Instagram</span></h3>
+									<!-- SnapWidget -->
+									<!-- SnapWidget -->
+									<script src="https://snapwidget.com/js/snapwidget.js"></script>
+									<iframe src="https://snapwidget.com/embed/310083" class="snapwidget-widget" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:100%; "></iframe>
+								</div>
+							</div>
+
+						</div><!-- / Container -->
+
+					</section><!-- / Widgets Widgets -->
+
+					<!-- Bottom section of footer -->
+					<section class="footer__bottom">
+						<div class="container bordered">
+							<div class="center">
+								<!-- copyrights -->
+								<ul id="bottom-links" class="flex-container center">
+									<li><a href="/imprint">Imprint</a></li>
+									<li><a href="/dse">DSE</a></li>
+									<li><a href="/contact">Contact</a></li>
+									<!--<li>
+										<a href="javascript:void(0)" id="disclaimer">Disclaimer</a>
+									</li>-->
+								</ul>
+							</div>
+							<div class="wrapper" style="padding-bottom: 10px;">
+								<div class="left" id="footer-left">
+									<!-- copyrights -->
+									<p class="copyrights para-left">
+										Made with <span class="fa fa-heart" /> by 
+										<a class="footer_links" href="mailto:logileifs@gmail.com">logileifs</a>
+									</p>
+								</div>
+								
+								<div class="right" id="footer-right">
+									<!-- copyrights -->
+									<p class="copyrights para-right">Fonts from 
+										<a class="footer_links" target="_blank" href="http://www.onlinewebfonts.com"> oNline Web Fonts</a>
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<!-- / Container -->
+						<!--<div class="container bordered">
+
+							<div class="eight columns">
+								
+							</div>
+
+							<div class="eight columns">
+
+								
+
+							</div>
+
+						</div>-->
+
+					</section><!-- / Bottom footer -->
+
+				</footer><!-- / Footer -->
+
+			</div><!-- Content -->
+
+		</div><!-- Wrap -->
+
+	</div>
+
+	<!--<a href="#0" class="cd-top">Top</a>-->
+
+<!-- End Document
+================================================== -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<!--<script src="{% static "js/min/jquery-1.11.1.min.js" %}"></script>-->
+	<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+	<script src="{% static "js/min/jquery-scrolltofixed-min.js" %}"></script>
+	<script src="{% static "js/min/classie.min.js" %}"></script>
+	<!--<script src="static/js/min/owl.carousel.min.js"></script>-->
+	<script src="{% static "js/owl.carousel.js" %}"></script>
+	<!--<script src="{% static "js/min/retina.min.js" %}"></script>-->
+	<!--<script src="{% static "js/min/smoothscroll.min.js" %}"></script>-->
+	<script src="{% static "js/min/mobile-menu.min.js" %}"></script>
+	<script src="{% static "js/min/placeholdem.min.js" %}"></script>
+	<!--<script src="{% static "js/min/jquery.parallax-1.1.3.min.js" %}"></script>-->
+	<script src="{% static "js/min/jquery.prettyembed.min.js" %}"></script>
+	<script src="{% static "js/min/fitvids.min.js" %}"></script>
+	<!--<script src="{% static "js/min/jquery.skippr.min.js" %}"></script>-->
+	<script src="{% static "js/min/jquery.swipebox.min.js" %}"></script>
+	<!--<script src="{% static "js/min/jquery.scrollme.min.js" %}"></script>-->
+	<!--<script src="static "js/min/main.min.js" %}"></script>-->
+	<script src="{% static "js/main.js" %}"></script>
+	<!--<script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>-->
+
+	<script src="https://cdn.flipboard.com/web/buttons/js/flbuttons.min.js" type="text/javascript"></script>
+
+	<script>window.twttr = (function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0],
+		t = window.twttr || {};
+		if (d.getElementById(id)) return t;
+		js = d.createElement(s);
+		js.id = id;
+		js.src = "https://platform.twitter.com/widgets.js";
+		fjs.parentNode.insertBefore(js, fjs);
+
+		t._e = [];
+		t.ready = function(f) {
+		t._e.push(f);
+		};
+
+		return t;
+		}(document, "script", "twitter-wjs"));
+	</script>
+	<script async defer data-pin-hover="true" data-pin-tall="true" data-pin-lang="de" data-pin-round="true" data-pin-save="false" src="//assets.pinterest.com/js/pinit.js"></script>
+	<script src="{% static "js/jquery-scrollToTop.js" %}"></script>
+	<script type="text/javascript">
+		$(document).ready(function($) {
+		$('body').scrollToTop({
+			distance: 200,
+			speed: 1000,
+			easing: 'linear',
+			animation: 'fade', // fade, slide, none
+			animationSpeed: 500,
+
+			mobile: {
+				width: 768,
+				distance: 100,
+				speed: 1000,
+				easing: 'easeInOutElastic',
+				animation: 'slide',
+				animationSpeed: 200
+			},
+
+			trigger: null, // Set a custom triggering element. Can be an HTML string or jQuery object
+			target: null, // Set a custom target element for scrolling to. Can be element or number
+			text: '', // Text for element, can contain HTML
+
+			skin: null,
+			throttle: 250,
+
+			namespace: 'scrollToTop'
+			});
+		});
+	</script>
+
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-19860110-3', 'auto');
+		ga('send', 'pageview');
+	</script>
+</body>
+</html>

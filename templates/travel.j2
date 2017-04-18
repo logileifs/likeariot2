@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load i18n mezzanine_tags blog_tags keyword_tags disqus_tags staticfiles %}
+
+{% block main %}
+<div style="">
+<h1 style="font-family: 'Beyond'; font-weight: normal; color: pink; font-size: 4em; text-align: center; margin-bottom: 10px;">Travel</h1>
+{% blog_categories as categories %}
+{% if categories %}
+	<div style="border-bottom: 1px solid #EEE; border-top: 1px solid #EEE;">
+		<ul class="flex-container center navigation__list subcategories">
+			<li>
+				<a href="/section/travel">All</a>
+			</li>
+			{% for category in categories %}
+				{% if category.title == 'Finland' or category.title == 'Germany' or category.title == 'Netherlands' or category.title == 'Festivals' or category.title == 'Gadgets' or category.title == 'Austria' %}
+				<li>
+					<a href="{% url "travel" category.slug %}"> {{ category }}
+					</a>
+				</li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	</div>
+	<br>
+	<div class="flex-grid">
+		{% for blog_post in blog_posts.object_list %}
+			<a class="flex-grid-anchor" href="{{blog_post.get_absolute_url}}">
+			<div class="flex-grid-item">
+				<div class="inner-container" style="position: relative; display: inline;">
+					{% if blog_post.featured_image %}
+						<img class="flex-grid-image" src="{{ blog_post.featured_image.url }}"/>
+					{% else %}
+						<img class="flex-grid-image" src="/static/images/Headerfinal.jpg"/>
+					{% endif %}
+					<div class="heading-container">
+							<h2 class="post-title-small">{{blog_post.title}}</h2>
+					</div>
+				</div>
+				{% if blog_post.description != blog_post|stringformat:"s" %}
+					<div class="description-container">
+						<p class="description">
+							{{ blog_post.description|truncatechars_html:100|safe }}
+						</p>
+					</div>
+				{% endif %}
+			</div>
+			</a>
+		{% endfor %}
+	</div>
+{% endif %}
+
+{% pagination_for blog_posts %}
+
+</div>
+{% endblock %}
