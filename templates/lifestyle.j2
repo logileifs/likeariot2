@@ -35,13 +35,6 @@
 							<h2 class="post-title-small">{{blog_post.title}}</h2>
 					</div>
 				</div>
-				{% if blog_post.description != blog_post|stringformat:"s" %}
-					<div class="description-container">
-						<p class="description">
-							{{ blog_post.description|truncatechars_html:100|safe }}
-						</p>
-					</div>
-				{% endif %}
 			</div>
 			</a>
 		{% endfor %}
